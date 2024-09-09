@@ -1,4 +1,3 @@
-
 import spacy
 from nltk.tokenize import sent_tokenize
 import pandas as pd
@@ -8,6 +7,7 @@ import sys
 import pathlib
 folder_path = pathlib.Path(__file__).parent.resolve()
 sys.path.append(os.path.join(folder_path,'../'))
+
 from utils import load_subtitles_dataset
 
 class NamedEntityRecognizer:
@@ -45,7 +45,7 @@ class NamedEntityRecognizer:
 
         # load dataset 
         df = load_subtitles_dataset(dataset_path)
-        df = df.head(10)
+        # df = df.head(10)
 
         # Run Inference
         df['ners'] = df['script'].apply(self.get_ners_inference)
