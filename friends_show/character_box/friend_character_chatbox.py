@@ -22,7 +22,7 @@ class CharacterChatBot():
 
     def __init__(self,
                  model_path,
-                 data_path="friends_show/merged_transcripts.csv",
+                 data_path="/content/data/merged_transcripts.csv",
                  huggingface_token = None
                  ):
         
@@ -194,7 +194,7 @@ class CharacterChatBot():
 
     
     def load_data(self):
-        data_path="friends_show/merged_transcripts.csv"
+        data_path="/content/data/merged_transcripts.csv"
         friends_transcript_df = pd.read_csv(data_path)
         friends_transcript_df = friends_transcript_df.dropna()
         friends_transcript_df['Dialogue'] = friends_transcript_df['Dialogue'].apply(remove_paranthesis)
