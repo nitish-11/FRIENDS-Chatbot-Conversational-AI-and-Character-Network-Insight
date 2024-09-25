@@ -70,7 +70,7 @@ class CharacterChatBot():
         output = self.model(
             messages,
             max_length=400,
-            max_new_tokens=50,  # Limit output tokens
+            max_new_tokens= 190,  # Limit output tokens
             eos_token_id=terminator,
             do_sample=True,
             temperature=0.6,
