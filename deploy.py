@@ -6,7 +6,7 @@ import os
 
 
 def chat_with_character_chatbot(message, history):
-    character_chatbot = CharacterChatBot("nitish-11/friends_Ross_all_Llama-3-8B",
+    character_chatbot = CharacterChatBot("nitish-11/friends_Ross_trained_Llama-3-8B",
                                          #data_path="merged_transcripts.xlsx",
                                          huggingface_token = os.getenv('huggingface_token')
                                          )
