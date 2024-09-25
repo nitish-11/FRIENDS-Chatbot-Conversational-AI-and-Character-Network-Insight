@@ -194,32 +194,72 @@ class CharacterChatBot():
         gc.collect()
 
     
+    # def load_data(self):
+    #     #data_path= "friends_chracter_new/merged_transcripts.csv",
+    #     data_path="/content/data/merged_transcripts3.csv"
+    #     friends_transcript_df = pd.read_csv(data_path)
+    #     friends_transcript_df = friends_transcript_df.dropna()
+    #     friends_transcript_df['Dialogue'] = friends_transcript_df['Dialogue'].apply(remove_paranthesis)
+    #     friends_transcript_df['number_of_words']  = friends_transcript_df['Dialogue'].str.strip().str.split(" ")
+    #     friends_transcript_df['number_of_words'] = friends_transcript_df['number_of_words'].apply(lambda x: len(x))
+    #     friends_transcript_df['Ross_response_flag'] = 0
+    #     friends_transcript_df.loc[(friends_transcript_df['Speaker'] == 'Ross')   &  (friends_transcript_df['number_of_words']>5), 'Ross_response_flag'] = 1
+
+    #     indexes_to_take = list( friends_transcript_df[ (friends_transcript_df['Ross_response_flag'] == 1) & (friends_transcript_df.index>0)].index)
+
+    #     system_promt = """" Your are Naruto from the anime "Naruto". Your responses should reflect his personality and speech patterns \n"""
+    #     system_promt = """" Your are Ross from the Friends Tv Show". Your responses should reflect his personality and speech patterns \n"""
+
+    #     prompts = []
+    #     for ind in indexes_to_take:
+    #         prompt = system_promt
+
+    #         prompt += friends_transcript_df.iloc[ind -1]['Dialogue']
+    #         prompt += '\n'
+    #         prompt += friends_transcript_df.iloc[ind]['Dialogue']
+    #         prompts.append(prompt)
+        
+    #     df = pd.DataFrame({"prompt":prompts})
+    #     dataset = Dataset.from_pandas(df)
+
+    #     return dataset
+
+
+
+
+
     def load_data(self):
         #data_path= "friends_chracter_new/merged_transcripts.csv",
         data_path="/content/data/merged_transcripts3.csv"
         friends_transcript_df = pd.read_csv(data_path)
         friends_transcript_df = friends_transcript_df.dropna()
         friends_transcript_df['Dialogue'] = friends_transcript_df['Dialogue'].apply(remove_paranthesis)
-        friends_transcript_df['number_of_words']  = friends_transcript_df['Dialogue'].str.strip().str.split(" ")
+        friends_transcript_df['number_of_words'] = friends_transcript_df['Dialogue'].str.strip().str.split(" ")
         friends_transcript_df['number_of_words'] = friends_transcript_df['number_of_words'].apply(lambda x: len(x))
         friends_transcript_df['Ross_response_flag'] = 0
-        friends_transcript_df.loc[(friends_transcript_df['Speaker'] == 'Ross')   &  (friends_transcript_df['number_of_words']>5), 'Ross_response_flag'] = 1
+        friends_transcript_df.loc[(friends_transcript_df['Speaker'] == 'Ross') & (friends_transcript_df['number_of_words'] > 5), 'Ross_response_flag'] = 1
 
-        indexes_to_take = list( friends_transcript_df[ (friends_transcript_df['Ross_response_flag'] == 1) & (friends_transcript_df.index>0)].index)
+        indexes_to_take = list(friends_transcript_df[(friends_transcript_df['Ross_response_flag'] == 1) & (friends_transcript_df.index > 0)].index)
 
-        system_promt = """" Your are Naruto from the anime "Naruto". Your responses should reflect his personality and speech patterns \n"""
         system_promt = """" Your are Ross from the Friends Tv Show". Your responses should reflect his personality and speech patterns \n"""
 
         prompts = []
         for ind in indexes_to_take:
             prompt = system_promt
 
-            prompt += friends_transcript_df.iloc[ind -1]['Dialogue']
+            # Insert the index validation here
+            if 0 <= ind - 1 < len(friends_transcript_df):
+                prompt += friends_transcript_df.iloc[ind - 1]['Dialogue']
+            else:
+                # Handle the case where the index is out of bounds
+                print(f"Index {ind - 1} is out of bounds")
+                continue  # Skip this iteration if the index is out of bounds
+
             prompt += '\n'
             prompt += friends_transcript_df.iloc[ind]['Dialogue']
             prompts.append(prompt)
-        
-        df = pd.DataFrame({"prompt":prompts})
+
+        df = pd.DataFrame({"prompt": prompts})
         dataset = Dataset.from_pandas(df)
 
         return dataset
