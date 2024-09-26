@@ -190,7 +190,7 @@ def main():
                                                                              
                 
                 # Chat Interface
-                chat_interface = gr.ChatInterface(fn=lambda message, history: chat_with_character_chatbot(character_radio.get(), message, history))
+                chat_interface = gr.ChatInterface(fn=lambda message, history: chat_with_character_chatbot(character_radio, message, history))
 
                 # Link dropdown change to chat interface
                 character_radio.change(fn=lambda _: chat_interface.clear(), inputs=character_radio, outputs=chat_interface)
