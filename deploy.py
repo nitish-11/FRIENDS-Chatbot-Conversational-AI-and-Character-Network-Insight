@@ -154,10 +154,20 @@ character_models = {
 }
 
 def chat_with_character_chatbot(character, message, history):
-    character_chatbot = CharacterChatBot(model_path= character_models[character],
+
+    if character is None:
+     return "Please select a character before sending a message."
+
+    # Store the selected character name
+    selected_character = character
+
+    # Notify user of the character they are talking to
+    response_message = f"You are going to talk to {selected_character}. Let's begin!"
+
+    character_chatbot = CharacterChatBot(model_path= character_models[selected_character],
                                          data_path="/content/data/merged_transcripts3.csv",
                                          huggingface_token=os.getenv('huggingface_token'),
-                                         character_name=character)  # Pass the character name here)
+                                         character_name=selected_character)  # Pass the character name here)
     output = character_chatbot.chat(message, history)
     output = output['content'].strip()
     return output
@@ -176,11 +186,14 @@ def main():
             with gr.Column():
                 # Dropdown for character selection
                 character_dropdown = gr.Dropdown(label="Choose a character", 
-                                                  choices=list(character_models.keys()))
+                                                  choices=list(character_models.keys()),
+                                                  placeholder="Select a character")
                                                   #value="Chandler"
+
+                selected_character2 = character_dropdown.value                                  
                 
                 # Chat Interface
-                chat_interface = gr.ChatInterface(fn=lambda message, history: chat_with_character_chatbot(character_dropdown.value, message, history))
+                chat_interface = gr.ChatInterface(fn=lambda message, history: chat_with_character_chatbot(selected_character2, message, history))
 
         # Link dropdown change to chat interface
         character_dropdown.change(fn=lambda _: chat_interface.clear(), inputs=character_dropdown, outputs=chat_interface)
