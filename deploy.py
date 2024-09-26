@@ -195,7 +195,7 @@ def main():
                 chat_interface = gr.ChatInterface(fn=lambda message, history: chat_with_character_chatbot(selected_character2, message, history))
 
         # Link dropdown change to chat interface
-        character_dropdown.change(fn=lambda _: chat_interface.clear(), inputs=character_dropdown, outputs=chat_interface)
+        character_radio.change(fn=lambda _: chat_interface.clear(), inputs=character_radio, outputs=chat_interface)
 
     iface.launch(share=True)
 
