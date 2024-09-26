@@ -177,7 +177,7 @@ def main():
                 # Dropdown for character selection
                 character_dropdown = gr.Dropdown(label="Choose a character", 
                                                   choices=list(character_models.keys()), 
-                                                  value="Ross")
+                                                  value="Chandler")
                 
                 # Chat Interface
                 chat_interface = gr.ChatInterface(fn=lambda message, history: chat_with_character_chatbot(character_dropdown.value, message, history))
