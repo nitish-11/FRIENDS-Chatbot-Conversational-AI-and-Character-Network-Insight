@@ -154,7 +154,7 @@ character_models = {
 }
 
 def chat_with_character_chatbot(character, message, history):
-    character_chatbot = CharacterChatBot(model_path= character_models['character'],
+    character_chatbot = CharacterChatBot(model_path= character_models[character],
                                          data_path="/content/data/merged_transcripts3.csv",
                                          huggingface_token=os.getenv('huggingface_token'),
                                          character_name=character)  # Pass the character name here)
