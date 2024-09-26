@@ -310,8 +310,12 @@ class CharacterChatBot():
                  model_path,
                  data_path="/content/data/merged_transcripts3.csv",
                  huggingface_token=None,
-                 character_name="Ross"  # New parameter for character name
+                 character_name=None  # Set default to None
                  ):
+        
+        
+        if character_name is None:
+         raise ValueError("character_name must be provided.")
         
         self.model_path = model_path
         self.data_path = data_path
