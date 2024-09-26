@@ -188,12 +188,18 @@ def main():
                 # character_radio = gr.Radio(label="Choose a character", 
                 #            choices=list(character_models.keys()))
                 character_textbox = gr.Textbox(label="Enter the character's name", placeholder="e.g., Rachel, Ross, Monica, Phoebe, Joey, Chandler")
+                submit_button = gr.Button("Submit")
 
                 # Chat Interface
                 chat_interface = gr.ChatInterface(fn=lambda message, history: chat_with_character_chatbot(character_textbox.value, message, history))
 
                 # Clear chat history when the character name changes
                 character_textbox.change(fn=lambda _: chat_interface.clear(), inputs=character_textbox, outputs=chat_interface)
+
+                # Submit button action
+                submit_button.click(fn=lambda message, history: chat_with_character_chatbot(character_textbox.value, message, history), 
+                                    inputs=[character_textbox, chat_interface], 
+                                    outputs=chat_interface)
 
 
     iface.launch(share=True)
