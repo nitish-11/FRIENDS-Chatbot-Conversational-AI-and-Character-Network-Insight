@@ -52,8 +52,8 @@ def chat_with_character_chatbot(message, history):
 
 def main():
     with gr.Blocks() as iface:
-        # Full-screen layout
-        with gr.Row(elem_id="header_row", equal_height=True):
+        # Header Section
+        with gr.Row():
             gr.HTML("""
                 <div style="text-align: center; padding: 20px; background-color: #f5f5f5; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
                     <h1 style="font-family: 'Arial', sans-serif; color: #333;">Friends Character Chatbot</h1>
@@ -62,11 +62,9 @@ def main():
             """)
         
         # Chatbot Section
-        with gr.Row(elem_id="chat_row", equal_height=True):
+        with gr.Row():
             with gr.Column():
-                gr.ChatInterface(fn=chat_with_character_chatbot, 
-                                 height=600,  # Set the chat window height
-                                 container=True)
+                gr.ChatInterface(fn=chat_with_character_chatbot)
 
     iface.launch(share=True)
 
