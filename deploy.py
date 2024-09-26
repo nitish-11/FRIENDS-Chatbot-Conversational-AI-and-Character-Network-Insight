@@ -1,38 +1,36 @@
-import gradio as gr
-import os
-from friends_chracter_new.friend_character_chatbox import CharacterChatBot
+# import gradio as gr
+# from friends_chracter_new import CharacterChatBot
+# import os
+
+# def chat_with_character_chatbot(message, history):
+#     character_chatbot = CharacterChatBot("nitish-11/friends_Ross_trained2_Llama-3-8B",
+#                                          #data_path="merged_transcripts.xlsx",
+#                                          huggingface_token = os.getenv('huggingface_token')
+#                                          )
+
+#     output = character_chatbot.chat(message, history)
+#     output = output['content'].strip()
+#     return output
 
 
 
-def chat_with_character_chatbot(message, history):
-    character_chatbot = CharacterChatBot("nitish-11/friends_Ross_trained2_Llama-3-8B",
-                                         #data_path="merged_transcripts.xlsx",
-                                         huggingface_token = os.getenv('huggingface_token')
-                                         )
+# def main():
+#     with gr.Blocks() as iface:
 
-    output = character_chatbot.chat(message, history)
-    output = output['content'].strip()
-    return output
-
+#         # Character Chatbot Section
+#         with gr.Row():
+#             with gr.Column():
+#                 gr.HTML("<h1>Character Chatbot</h1>")
+#                 gr.ChatInterface(chat_with_character_chatbot)
 
 
-def main():
-    with gr.Blocks() as iface:
-
-        # Character Chatbot Section
-        with gr.Row():
-            with gr.Column():
-                gr.HTML("<h1>Character Chatbot</h1>")
-                gr.ChatInterface(chat_with_character_chatbot)
-
-
-    iface.launch(share=True)
+#     iface.launch(share=True)
 
 
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
 
 
 #----------------------------------------------------------------------------------------------------------------------------------
@@ -78,7 +76,7 @@ if __name__ == '__main__':
 
 
 import gradio as gr
-from friends_chracter_new import CharacterChatBot
+from friends_chracter_new.friend_character_chatbox import CharacterChatBot
 import os
 
 # Mapping of character names to their corresponding model paths
