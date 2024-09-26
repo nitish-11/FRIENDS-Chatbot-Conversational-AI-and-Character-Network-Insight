@@ -185,11 +185,11 @@ def main():
         with gr.Row(elem_id="chat_row", equal_height=True):
             with gr.Column():
                 # Dropdown for character selection
-                character_dropdown = gr.Dropdown(label="Choose a character", 
-                                                  choices=list(character_models.keys()))
-                                                  #value="Chandler"
+                character_radio = gr.Radio(label="Choose a character", 
+                           choices=list(character_models.keys()))
+                                                  
 
-                selected_character2 = character_dropdown.value                                  
+                selected_character2 = character_radio.value                               
                 
                 # Chat Interface
                 chat_interface = gr.ChatInterface(fn=lambda message, history: chat_with_character_chatbot(selected_character2, message, history))
