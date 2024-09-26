@@ -119,9 +119,9 @@ def main():
                                                   value="Ross")
                 
                 # Chat Interface
-                chat_interface = gr.ChatInterface(fn=lambda message, history: chat_with_character_chatbot(character_dropdown, message, history), 
+                chat_interface = gr.ChatInterface(fn=lambda message, history: chat_with_character_chatbot(character_dropdown, message, history))
                                                    #height=600,  # Set the chat window height
-                                                   container=True)
+                                                   #container=True)
 
         # Link dropdown change to chat interface
         character_dropdown.change(fn=lambda _: chat_interface.clear(), inputs=character_dropdown, outputs=chat_interface)
