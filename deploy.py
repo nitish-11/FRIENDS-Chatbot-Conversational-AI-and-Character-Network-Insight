@@ -186,8 +186,7 @@ def main():
             with gr.Column():
                 # Dropdown for character selection
                 character_dropdown = gr.Dropdown(label="Choose a character", 
-                                                  choices=list(character_models.keys()),
-                                                  placeholder="Select a character")
+                                                  choices=list(character_models.keys()))
                                                   #value="Chandler"
 
                 selected_character2 = character_dropdown.value                                  
