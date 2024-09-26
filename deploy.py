@@ -185,17 +185,32 @@ def main():
         with gr.Row(elem_id="chat_row", equal_height=True):
             with gr.Column():
                 # Dropdown for character selection
+                # Radio button for character selection
                 character_radio = gr.Radio(label="Choose a character", 
-                           choices=list(character_models.keys()))
+                                        choices=["Ross", "Rachel", "Monica", "Chandler", "Joey", "Phoebe"])
+                
+                # Use 'submit' to print the selected character
+                character_radio.change(fn=print_selected_character, inputs=character_radio, outputs="output_text")
+
+                # Display the result
+                output_text = gr.Textbox(label="Selected Character")
+                # character_radio = gr.Radio(label="Choose a character", 
+                #            choices=list(character_models.keys()))
                                                                              
                 
                 # Chat Interface
-                chat_interface = gr.ChatInterface(fn=lambda message, history: chat_with_character_chatbot(character_radio, message, history))
+                chat_interface = gr.ChatInterface(fn=lambda message, history: chat_with_character_chatbot(output_text, message, history))
 
                 # Link dropdown change to chat interface
                 character_radio.change(fn=lambda _: chat_interface.clear(), inputs=character_radio, outputs=chat_interface)
 
     iface.launch(share=True)
+
+
+def print_selected_character(character):
+    print(f"Selected character: {character}")
+    return f"You selected: {character}"
+
 
 if __name__ == '__main__':
     main()
