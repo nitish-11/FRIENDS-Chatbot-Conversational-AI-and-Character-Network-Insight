@@ -228,7 +228,6 @@
 
 
 
-
 #     def load_data(self):
 #         #data_path= "friends_chracter_new/merged_transcripts.csv",
 #         data_path="/content/data/merged_transcripts3.csv"
@@ -265,22 +264,7 @@
 
 #         return dataset
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#----------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -317,17 +301,6 @@ import gc
 def remove_paranthesis(text):
     result = re.sub(r'\(.*?\)', '', text)
     return result
-
-
-character_models = {
-    "Ross": "nitish-11/friends_Ross_trained2_Llama-3-8B",
-    "Rachel": "nitish-11/friends_Rachel_trained_Llama-3-8B",
-    "Chandler": "nitish-11/friends_Chandler_trained_Llama-3-8B",
-    "Monica": "nitish-11/friends_Monica_trained_Llama-3-8B",
-    "Joey": "nitish-11/friends_Joey_trained_Llama-3-8B",
-    "Phoebe" : "nitish-11/friends_Phoebe_trained_Llama-3-8B"
-}
-
 
 
 
@@ -507,6 +480,15 @@ class CharacterChatBot():
         friends_transcript_df['Dialogue'] = friends_transcript_df['Dialogue'].apply(remove_paranthesis)
         friends_transcript_df['number_of_words'] = friends_transcript_df['Dialogue'].str.strip().str.split(" ")
         friends_transcript_df['number_of_words'] = friends_transcript_df['number_of_words'].apply(lambda x: len(x))
+
+        character_models = {
+        "Rachel": "nitish-11/friends_Rachel_trained_Llama-3-8B",
+        "Ross": "nitish-11/friends_Ross_trained2_Llama-3-8B",
+        "Chandler": "nitish-11/friends_Chandler_trained_Llama-3-8B",
+        "Monica": "nitish-11/friends_Monica_trained_Llama-3-8B",
+        "Joey": "nitish-11/friends_Joey_trained_Llama-3-8B",
+        "Phoebe" : "nitish-11/friends_Phoebe_trained_Llama-3-8B"
+        }
         
         # Initialize response flags for all characters
         for character in character_models.keys():

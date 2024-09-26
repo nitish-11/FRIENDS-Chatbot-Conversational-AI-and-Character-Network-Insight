@@ -145,8 +145,8 @@ import os
 
 # Mapping of character names to their corresponding model paths
 character_models = {
-    "Ross": "nitish-11/friends_Ross_trained2_Llama-3-8B",
     "Rachel": "nitish-11/friends_Rachel_trained_Llama-3-8B",
+    "Ross": "nitish-11/friends_Ross_trained2_Llama-3-8B",
     "Chandler": "nitish-11/friends_Chandler_trained_Llama-3-8B",
     "Monica": "nitish-11/friends_Monica_trained_Llama-3-8B",
     "Joey": "nitish-11/friends_Joey_trained_Llama-3-8B",
@@ -154,8 +154,10 @@ character_models = {
 }
 
 def chat_with_character_chatbot(character, message, history):
-    character_chatbot = CharacterChatBot(character_models[character],
-                                         huggingface_token=os.getenv('huggingface_token'))
+    character_chatbot = CharacterChatBot(model_path= character_models['character'],
+                                         data_path="/content/data/merged_transcripts3.csv",
+                                         huggingface_token=os.getenv('huggingface_token'),
+                                         character_name=character)  # Pass the character name here)
     output = character_chatbot.chat(message, history)
     output = output['content'].strip()
     return output
