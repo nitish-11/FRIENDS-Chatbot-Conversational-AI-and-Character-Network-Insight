@@ -65,8 +65,7 @@ def main():
         with gr.Row(elem_id="chat_row", equal_height=True):
             with gr.Column():
                 gr.ChatInterface(fn=chat_with_character_chatbot, 
-                                 chatbot_height="100vh", # Make the chatbot full screen height
-                                 height=600, # Set the chat window height (adjust as needed)
+                                 height=600,  # Set the chat window height
                                  container=True)
 
     iface.launch(share=True)
