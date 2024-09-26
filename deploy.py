@@ -153,24 +153,80 @@ character_models = {
     "Phoebe": "nitish-11/friends_Phoebe_trained_Llama-3-8B"
 }
 
+# def chat_with_character_chatbot(character, message, history):
+
+#     if character is None:
+#      return "Please select a character before sending a message."
+
+#     # Store the selected character name
+#     selected_character = character
+
+#     # Notify user of the character they are talking to
+#     response_message = f"You are going to talk to {selected_character}. Let's begin!"
+
+#     character_chatbot = CharacterChatBot(model_path= character_models[selected_character],
+#                                          data_path="/content/data/merged_transcripts3.csv",
+#                                          huggingface_token=os.getenv('huggingface_token'),
+#                                          character_name=selected_character)  # Pass the character name here)
+#     output = character_chatbot.chat(message, history)
+#     output = output['content'].strip()
+#     return output
+
+# def main():
+#     with gr.Blocks() as iface:
+#         # Full-screen layout
+#         with gr.Row(elem_id="header_row", equal_height=True):
+#             gr.HTML("""<div style="text-align: center; padding: 20px; background-color: #f5f5f5; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+#                         <h1 style="font-family: 'Arial', sans-serif; color: #333;">Friends Character Chatbot</h1>
+#                         <p style="font-size: 18px; color: #555;">Chat with your favorite Friends character</p>
+#                         </div>""")
+
+#         # Character Selection and Chatbot Section
+#         with gr.Row(elem_id="chat_row", equal_height=True):
+#             with gr.Column():
+#                 # Dropdown for character selection
+#                 # character_radio = gr.Radio(label="Choose a character", 
+#                 #            choices=list(character_models.keys()))
+#                 character_textbox = gr.Textbox(label="Enter the character's name", placeholder="e.g., Rachel, Ross, Monica, Phoebe, Joey, Chandler")
+#                 submit_button = gr.Button("Submit")
+
+#                 # Chat Interface
+#                 chat_interface = gr.ChatInterface(fn=lambda message, history: chat_with_character_chatbot(character_textbox.value, message, history))
+
+#                 # Clear chat history when the character name changes
+#                 character_textbox.change(fn=lambda _: chat_interface.clear(), inputs=character_textbox, outputs=chat_interface)
+
+#                 # Submit button action
+#                 submit_button.click(fn=lambda message, history: chat_with_character_chatbot(character_textbox.value, message, history), 
+#                                     inputs=[character_textbox, chat_interface], 
+#                                     outputs=chat_interface)
+
+
+#     iface.launch(share=True)
+
+# if __name__ == '__main__':
+#     main()
+
+
+
 def chat_with_character_chatbot(character, message, history):
-
-    if character is None:
-     return "Please select a character before sending a message."
-
-    # Store the selected character name
-    selected_character = character
+    # Check if the selected character is valid
+    if character not in character_models:
+        return "Please select a valid character before sending a message."
 
     # Notify user of the character they are talking to
-    response_message = f"You are going to talk to {selected_character}. Let's begin!"
+    response_message = f"You are going to talk to {character}. Let's begin!"
 
-    character_chatbot = CharacterChatBot(model_path= character_models[selected_character],
+    character_chatbot = CharacterChatBot(model_path=character_models[character],
                                          data_path="/content/data/merged_transcripts3.csv",
                                          huggingface_token=os.getenv('huggingface_token'),
-                                         character_name=selected_character)  # Pass the character name here)
+                                         character_name=character)
     output = character_chatbot.chat(message, history)
     output = output['content'].strip()
     return output
+
+
+
 
 def main():
     with gr.Blocks() as iface:
@@ -184,10 +240,10 @@ def main():
         # Character Selection and Chatbot Section
         with gr.Row(elem_id="chat_row", equal_height=True):
             with gr.Column():
-                # Dropdown for character selection
-                # character_radio = gr.Radio(label="Choose a character", 
-                #            choices=list(character_models.keys()))
-                character_textbox = gr.Textbox(label="Enter the character's name", placeholder="e.g., Rachel, Ross, Monica, Phoebe, Joey, Chandler")
+                # Textbox for character selection
+                character_textbox = gr.Textbox(label="Enter the character's name", placeholder="e.g., Rachel, Ross, Monica")
+
+                # Submit Button
                 submit_button = gr.Button("Submit")
 
                 # Chat Interface
@@ -200,7 +256,6 @@ def main():
                 submit_button.click(fn=lambda message, history: chat_with_character_chatbot(character_textbox.value, message, history), 
                                     inputs=[character_textbox, chat_interface], 
                                     outputs=chat_interface)
-
 
     iface.launch(share=True)
 
