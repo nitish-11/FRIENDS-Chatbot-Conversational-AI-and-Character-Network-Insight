@@ -54,7 +54,7 @@ class CharacterChatBot():
     def chat(self, message, history):
         messages = []
         # Add the system ptomp 
-        messages.append({"role":"system","content": """" Your are Phoebe from the Friends Tv Show". Your responses should reflect his personality and speech patterns \n"""})
+        messages.append({"role":"system","content": """" Your are Joey from the Friends Tv Show". Your responses should reflect his personality and speech patterns \n"""})
 
         for message_and_respnse in history:
             messages.append({"role":"user","content":message_and_respnse[0]})
@@ -237,12 +237,12 @@ class CharacterChatBot():
         friends_transcript_df['Dialogue'] = friends_transcript_df['Dialogue'].apply(remove_paranthesis)
         friends_transcript_df['number_of_words'] = friends_transcript_df['Dialogue'].str.strip().str.split(" ")
         friends_transcript_df['number_of_words'] = friends_transcript_df['number_of_words'].apply(lambda x: len(x))
-        friends_transcript_df['Phoebe_response_flag'] = 0
-        friends_transcript_df.loc[(friends_transcript_df['Speaker'] == 'Phoebe') & (friends_transcript_df['number_of_words'] > 5), 'Phoebe_response_flag'] = 1
+        friends_transcript_df['Joey_response_flag'] = 0
+        friends_transcript_df.loc[(friends_transcript_df['Speaker'] == 'Joey') & (friends_transcript_df['number_of_words'] > 5), 'Joey_response_flag'] = 1
 
-        indexes_to_take = list(friends_transcript_df[(friends_transcript_df['Phoebe_response_flag'] == 1) & (friends_transcript_df.index > 0)].index)
+        indexes_to_take = list(friends_transcript_df[(friends_transcript_df['Joey_response_flag'] == 1) & (friends_transcript_df.index > 0)].index)
 
-        system_promt = """" Your are Phoebe from the Friends Tv Show". Your responses should reflect his personality and speech patterns \n"""
+        system_promt = """" Your are Joey from the Friends Tv Show". Your responses should reflect his personality and speech patterns \n"""
 
         prompts = []
         for ind in indexes_to_take:
