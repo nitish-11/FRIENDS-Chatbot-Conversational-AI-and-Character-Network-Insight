@@ -1,36 +1,36 @@
-# import gradio as gr
-# from friends_chracter_new import CharacterChatBot
-# import os
+import gradio as gr
+from friends_chracter_new import CharacterChatBot
+import os
 
-# def chat_with_character_chatbot(message, history):
-#     character_chatbot = CharacterChatBot("nitish-11/friends_Ross_trained2_Llama-3-8B",
-#                                          #data_path="merged_transcripts.xlsx",
-#                                          huggingface_token = os.getenv('huggingface_token')
-#                                          )
+def chat_with_character_chatbot(message, history):
+    character_chatbot = CharacterChatBot("nitish-11/friends_Monica_trained_Llama-3-8B",
+                                         #data_path="merged_transcripts.xlsx",
+                                         huggingface_token = os.getenv('huggingface_token')
+                                         )
 
-#     output = character_chatbot.chat(message, history)
-#     output = output['content'].strip()
-#     return output
-
-
-
-# def main():
-#     with gr.Blocks() as iface:
-
-#         # Character Chatbot Section
-#         with gr.Row():
-#             with gr.Column():
-#                 gr.HTML("<h1>Character Chatbot</h1>")
-#                 gr.ChatInterface(chat_with_character_chatbot)
-
-
-#     iface.launch(share=True)
+    output = character_chatbot.chat(message, history)
+    output = output['content'].strip()
+    return output
 
 
 
+def main():
+    with gr.Blocks() as iface:
 
-# if __name__ == '__main__':
-#     main()
+        # Character Chatbot Section
+        with gr.Row():
+            with gr.Column():
+                gr.HTML("<h1>Character Chatbot</h1>")
+                gr.ChatInterface(chat_with_character_chatbot)
+
+
+    iface.launch(share=True)
+
+
+
+
+if __name__ == '__main__':
+    main()
 
 
 #----------------------------------------------------------------------------------------------------------------------------------
@@ -299,83 +299,3 @@
 
 
 #----------------------------------------------------------------------------------------------------
-
-
-import gradio as gr
-from friends_chracter_new.friend_character_chatbox import CharacterChatBot
-import os
-
-# Mapping of character names to their corresponding model paths
-character_models = {
-    "Rachel": "nitish-11/friends_Rachel_trained_Llama-3-8B",
-    "Ross": "nitish-11/friends_Ross_trained2_Llama-3-8B",
-    "Chandler": "nitish-11/friends_Chandler_trained_Llama-3-8B",
-    "Monica": "nitish-11/friends_Monica_trained_Llama-3-8B",
-    "Joey": "nitish-11/friends_Joey_trained_Llama-3-8B",
-    "Phoebe": "nitish-11/friends_Phoebe_trained_Llama-3-8B"
-}
-
-
-def chat_with_character_chatbot(character, message, history):
-    # Check if the selected character is valid
-    if character not in character_models:
-        return "Please select a valid character before sending a message."
-
-    character_chatbot = CharacterChatBot(model_path=character_models[character],
-                                         data_path="/content/data/merged_transcripts3.csv",
-                                         huggingface_token=os.getenv('huggingface_token'),
-                                         character_name=character)
-    output = character_chatbot.chat(message, history)
-    output = output['content'].strip()
-    return output
-
-
-def main():
-    with gr.Blocks() as iface:
-        # Full-screen layout
-        with gr.Row(elem_id="header_row", equal_height=True):
-            gr.HTML("""<div style="text-align: center; padding: 20px; background-color: #f5f5f5; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-                        <h1 style="font-family: 'Arial', sans-serif; color: #333;">Friends Character Chatbot</h1>
-                        <p style="font-size: 18px; color: #555;">Chat with your favorite Friends character</p>
-                        </div>""")
-
-        # Character Selection and Chatbot Section
-        with gr.Row(elem_id="chat_row", equal_height=True):
-            with gr.Column():
-                # Textbox for character selection
-                character_textbox = gr.Textbox(label="Enter the character's name", placeholder="e.g., Rachel, Ross, Monica")
-
-                # State to store the selected character
-                selected_character = gr.State()
-
-                # Update the state with the selected character name when submit is clicked
-                def update_character(character_name):
-                    return character_name
-
-                # Submit Button
-                submit_button = gr.Button("Submit")
-
-                # Chat Interface
-                chatbot = gr.Chatbot()
-
-                # Textbox to input messages
-                message_input = gr.Textbox(placeholder="Type a message...", label="Message")
-
-                # Click button to submit message
-                send_button = gr.Button("Send")
-
-                # Clear chat history when the character name changes
-                character_textbox.change(fn=lambda _: chatbot.clear(), inputs=character_textbox, outputs=chatbot)
-
-                # Submit button action: update the selected character
-                submit_button.click(fn=update_character, inputs=character_textbox, outputs=selected_character)
-
-                # Send button action: process the message and get a response
-                send_button.click(fn=lambda message, history: chat_with_character_chatbot(selected_character.value, message, history),
-                                  inputs=[message_input, chatbot],
-                                  outputs=chatbot)
-
-    iface.launch(share=True)
-
-if __name__ == '__main__':
-    main()
