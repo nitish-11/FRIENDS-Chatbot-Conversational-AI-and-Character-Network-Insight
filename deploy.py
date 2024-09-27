@@ -356,18 +356,24 @@ def main():
                 submit_button = gr.Button("Submit")
 
                 # Chat Interface
-                chat_interface = gr.ChatInterface(fn=lambda message, history: chat_with_character_chatbot(selected_character.value, message, history))
+                chatbot = gr.Chatbot()
+
+                # Textbox to input messages
+                message_input = gr.Textbox(placeholder="Type a message...", label="Message")
+
+                # Click button to submit message
+                send_button = gr.Button("Send")
 
                 # Clear chat history when the character name changes
-                character_textbox.change(fn=lambda _: chat_interface.clear(), inputs=character_textbox, outputs=chat_interface)
+                character_textbox.change(fn=lambda _: chatbot.clear(), inputs=character_textbox, outputs=chatbot)
 
-                # Submit button action: update the selected character and pass it to chat interface
+                # Submit button action: update the selected character
                 submit_button.click(fn=update_character, inputs=character_textbox, outputs=selected_character)
 
-                # Start chatting after selecting a character
-                chat_interface.submit(fn=lambda message, history: chat_with_character_chatbot(selected_character.value, message, history),
-                                      inputs=[character_textbox, chat_interface], 
-                                      outputs=chat_interface)
+                # Send button action: process the message and get a response
+                send_button.click(fn=lambda message, history: chat_with_character_chatbot(selected_character.value, message, history),
+                                  inputs=[message_input, chatbot],
+                                  outputs=chatbot)
 
     iface.launch(share=True)
 
