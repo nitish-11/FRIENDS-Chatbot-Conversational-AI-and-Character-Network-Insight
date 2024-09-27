@@ -139,19 +139,19 @@
 
 
 
-import gradio as gr
-from friends_chracter_new.friend_character_chatbox import CharacterChatBot
-import os
+# import gradio as gr
+# from friends_chracter_new.friend_character_chatbox import CharacterChatBot
+# import os
 
-# Mapping of character names to their corresponding model paths
-character_models = {
-    "Rachel": "nitish-11/friends_Rachel_trained_Llama-3-8B",
-    "Ross": "nitish-11/friends_Ross_trained2_Llama-3-8B",
-    "Chandler": "nitish-11/friends_Chandler_trained_Llama-3-8B",
-    "Monica": "nitish-11/friends_Monica_trained_Llama-3-8B",
-    "Joey": "nitish-11/friends_Joey_trained_Llama-3-8B",
-    "Phoebe": "nitish-11/friends_Phoebe_trained_Llama-3-8B"
-}
+# # Mapping of character names to their corresponding model paths
+# character_models = {
+#     "Rachel": "nitish-11/friends_Rachel_trained_Llama-3-8B",
+#     "Ross": "nitish-11/friends_Ross_trained2_Llama-3-8B",
+#     "Chandler": "nitish-11/friends_Chandler_trained_Llama-3-8B",
+#     "Monica": "nitish-11/friends_Monica_trained_Llama-3-8B",
+#     "Joey": "nitish-11/friends_Joey_trained_Llama-3-8B",
+#     "Phoebe": "nitish-11/friends_Phoebe_trained_Llama-3-8B"
+# }
 
 # def chat_with_character_chatbot(character, message, history):
 
@@ -209,6 +209,30 @@ character_models = {
 
 
 
+
+
+
+
+
+
+
+
+
+import gradio as gr
+from friends_chracter_new.friend_character_chatbox import CharacterChatBot
+import os
+
+# Mapping of character names to their corresponding model paths
+character_models = {
+    "Rachel": "nitish-11/friends_Rachel_trained_Llama-3-8B",
+    "Ross": "nitish-11/friends_Ross_trained2_Llama-3-8B",
+    "Chandler": "nitish-11/friends_Chandler_trained_Llama-3-8B",
+    "Monica": "nitish-11/friends_Monica_trained_Llama-3-8B",
+    "Joey": "nitish-11/friends_Joey_trained_Llama-3-8B",
+    "Phoebe": "nitish-11/friends_Phoebe_trained_Llama-3-8B"
+}
+
+
 def chat_with_character_chatbot(character, message, history):
     # Check if the selected character is valid
     if character not in character_models:
@@ -226,8 +250,6 @@ def chat_with_character_chatbot(character, message, history):
     return output
 
 
-
-
 def main():
     with gr.Blocks() as iface:
         # Full-screen layout
@@ -243,17 +265,23 @@ def main():
                 # Textbox for character selection
                 character_textbox = gr.Textbox(label="Enter the character's name", placeholder="e.g., Rachel, Ross, Monica")
 
+                # State to store the selected character
+                selected_character = gr.State()
+
                 # Submit Button
                 submit_button = gr.Button("Submit")
 
                 # Chat Interface
-                chat_interface = gr.ChatInterface(fn=lambda message, history: chat_with_character_chatbot(character_textbox.value, message, history))
+                chat_interface = gr.ChatInterface(fn=lambda message, history: chat_with_character_chatbot(selected_character.value, message, history))
+
+                # Update the state with the selected character name
+                character_textbox.change(fn=lambda character: character, inputs=character_textbox, outputs=selected_character)
 
                 # Clear chat history when the character name changes
                 character_textbox.change(fn=lambda _: chat_interface.clear(), inputs=character_textbox, outputs=chat_interface)
 
                 # Submit button action
-                submit_button.click(fn=lambda message, history: chat_with_character_chatbot(character_textbox.value, message, history), 
+                submit_button.click(fn=lambda message, history: chat_with_character_chatbot(selected_character.value, message, history), 
                                     inputs=[character_textbox, chat_interface], 
                                     outputs=chat_interface)
 
