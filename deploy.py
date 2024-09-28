@@ -584,7 +584,7 @@ def main():
 
         with gr.Tab("Character Network"):
             # Display the character network HTML file
-            gr.HTML("<iframe src='friends_show/friends_character_network_two.html' width='100%' height='600px' style='border: none;'></iframe>")
+            gr.HTML("<iframe src='/content/data/friends_character_network_two.html' width='100%' height='600px' style='border: none;'></iframe>")
 
     iface.launch(share=True)
 
