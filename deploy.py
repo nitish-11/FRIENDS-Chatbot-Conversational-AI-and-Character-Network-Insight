@@ -528,6 +528,8 @@ def chat_with_character_chatbot(character, message, history):
     
     return response, history
 
+
+
 # Main function for Gradio interface
 def main():
     with gr.Blocks() as iface:
@@ -582,8 +584,22 @@ def main():
                                    inputs=[character_radio], 
                                    outputs=[chatbot, user_message, chat_history, character_status])
 
-        # with gr.Tab("Character Network"):
-        #     gr.HTML("<iframe src='/content/data/friends_character_network_two.html' width='100%' height='600px' style='border: none;'></iframe>")
+
+
+
+        with gr.Tab("Character Network"):
+                    with gr.Row():
+                        with gr.Column():
+                            gr.HTML("<h1>Character Network (NERs and Graphs)</h1>")
+                            with gr.Row():
+                                with gr.Column():
+                                    network_html = gr.HTML()
+                                with gr.Column():
+                                    subtitles_path = gr.Textbox(label="Subtutles or Script Path")
+                                    ner_path = gr.Textbox(label="NERs save path")
+                                    get_network_graph_button = gr.Button("Get Character Network")
+                                    #get_network_graph_button.click(get_character_network, inputs=[subtitles_path,ner_path], outputs=[network_html])
+
 
 
     iface.launch(share=True)
