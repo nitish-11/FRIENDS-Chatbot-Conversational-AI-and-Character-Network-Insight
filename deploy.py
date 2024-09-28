@@ -536,53 +536,61 @@ def main():
             gr.HTML("""<div style="text-align: center; padding: 20px; background-color: #f5f5f5; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
                         <h1 style="font-family: 'Arial', sans-serif; color: #333;">Friends Character Chatbot</h1>
                         </div>""")
+
+        # Create a tabbed interface
+        with gr.Tab("Chatbot"):
             # Dynamic text for the selected character
             character_status = gr.Markdown("### Chat with your favorite Friends character: *No character selected*")
 
-        # Character selection section
-        with gr.Row(elem_id="selection_row", equal_height=True):
-            with gr.Column():
-                # Radio button for character selection
-                character_radio = gr.Radio(label="Choose a character", choices=list(character_models.keys()), value=None)
+            # Character selection section
+            with gr.Row(elem_id="selection_row", equal_height=True):
+                with gr.Column():
+                    # Radio button for character selection
+                    character_radio = gr.Radio(label="Choose a character", choices=list(character_models.keys()), value=None)
 
-        # Textbox for user query (message) and submit button
-        with gr.Row(elem_id="input_row", equal_height=True):
-            user_message = gr.Textbox(label="Your message", placeholder="Type your message here...")
-            submit_button = gr.Button("Submit")
+            # Textbox for user query (message) and submit button
+            with gr.Row(elem_id="input_row", equal_height=True):
+                user_message = gr.Textbox(label="Your message", placeholder="Type your message here...")
+                submit_button = gr.Button("Submit")
 
-        # Chatbot display below the input section
-        with gr.Row(elem_id="chat_row", equal_height=True):
-            chatbot = gr.Chatbot(label="Chat with the selected character", height=600)
+            # Chatbot display below the input section
+            with gr.Row(elem_id="chat_row", equal_height=True):
+                chatbot = gr.Chatbot(label="Chat with the selected character", height=600)
 
-        # Chat history state
-        chat_history = gr.State([])
+            # Chat history state
+            chat_history = gr.State([])
 
-        # Function when user submits a message
-        def process_input(character, message, history):
-            # Get response from the chatbot
-            response, updated_history = chat_with_character_chatbot(character, message, history)
-            return updated_history, updated_history
+            # Function when user submits a message
+            def process_input(character, message, history):
+                # Get response from the chatbot
+                response, updated_history = chat_with_character_chatbot(character, message, history)
+                return updated_history, updated_history
 
-        # Function to reset the chat when character changes
-        def reset_chat(character):
-            # Update the dynamic character status
-            status_message = f"### Chat with your favorite Friends character: *{character}*"
-            return [], "", [], status_message  # Reset chat history, message input, and update the status
+            # Function to reset the chat when character changes
+            def reset_chat(character):
+                # Update the dynamic character status
+                status_message = f"### Chat with your favorite Friends character: *{character}*"
+                return [], "", [], status_message  # Reset chat history, message input, and update the status
 
-        # Connect submit button to input processing
-        submit_button.click(fn=process_input, 
-                            inputs=[character_radio, user_message, chat_history], 
-                            outputs=[chatbot, chat_history])
+            # Connect submit button to input processing
+            submit_button.click(fn=process_input, 
+                                inputs=[character_radio, user_message, chat_history], 
+                                outputs=[chatbot, chat_history])
 
-        # Reset chat history, input, and state when character changes
-        character_radio.change(fn=reset_chat, 
-                               inputs=[character_radio], 
-                               outputs=[chatbot, user_message, chat_history, character_status])
+            # Reset chat history, input, and state when character changes
+            character_radio.change(fn=reset_chat, 
+                                   inputs=[character_radio], 
+                                   outputs=[chatbot, user_message, chat_history, character_status])
+
+        with gr.Tab("Character Network"):
+            # Display the character network HTML file
+            gr.HTML("<iframe src='friends_show/friends_character_network_two.html' width='100%' height='600px' style='border: none;'></iframe>")
 
     iface.launch(share=True)
 
 if __name__ == '__main__':
     main()
+
 
 
 
