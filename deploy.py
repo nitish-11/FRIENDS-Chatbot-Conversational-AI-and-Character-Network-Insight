@@ -491,116 +491,238 @@
 #------------------------------------------------------------
 # without colores
 
-import gradio as gr
-from friends_chracter_new.friend_character_chatbox import CharacterChatBot
-import os
+# import gradio as gr
+# from friends_chracter_new.friend_character_chatbox import CharacterChatBot
+# import os
 
-# Mapping of character names to their corresponding model paths
-character_models = {
-    "Rachel": "nitish-11/friends_Rachel_trained_Llama-3-8B",
-    "Ross": "nitish-11/friends_Ross_trained2_Llama-3-8B",
-    "Chandler": "nitish-11/friends_Chandler_trained_Llama-3-8B",
-    "Monica": "nitish-11/friends_Monica_trained_Llama-3-8B",
-    "Joey": "nitish-11/friends_Joey_trained_Llama-3-8B",
-    "Phoebe": "nitish-11/friends_Phoebe_trained_Llama-3-8B"
-}
+# # Mapping of character names to their corresponding model paths
+# character_models = {
+#     "Rachel": "nitish-11/friends_Rachel_trained_Llama-3-8B",
+#     "Ross": "nitish-11/friends_Ross_trained2_Llama-3-8B",
+#     "Chandler": "nitish-11/friends_Chandler_trained_Llama-3-8B",
+#     "Monica": "nitish-11/friends_Monica_trained_Llama-3-8B",
+#     "Joey": "nitish-11/friends_Joey_trained_Llama-3-8B",
+#     "Phoebe": "nitish-11/friends_Phoebe_trained_Llama-3-8B"
+# }
 
-# Function to chat with the character chatbot
-def chat_with_character_chatbot(character, message, history):
-    if character is None:
-        return "Please select a character before sending a message.", history
+# # Function to chat with the character chatbot
+# def chat_with_character_chatbot(character, message, history):
+#     if character is None:
+#         return "Please select a character before sending a message.", history
     
-    if character not in character_models:
-        return "Character not recognized. Please enter a valid character.", history
+#     if character not in character_models:
+#         return "Character not recognized. Please enter a valid character.", history
 
-    # Initialize the chatbot with the selected character's model
-    character_chatbot = CharacterChatBot(model_path=character_models[character],
-                                         data_path="/content/data/merged_transcripts3.csv",
-                                         huggingface_token=os.getenv('huggingface_token'),
-                                         character_name=character)
+#     # Initialize the chatbot with the selected character's model
+#     character_chatbot = CharacterChatBot(model_path=character_models[character],
+#                                          data_path="/content/data/merged_transcripts3.csv",
+#                                          huggingface_token=os.getenv('huggingface_token'),
+#                                          character_name=character)
     
-    # Generate the response from the chatbot
-    output = character_chatbot.chat(message, history)
-    response = output['content'].strip()
+#     # Generate the response from the chatbot
+#     output = character_chatbot.chat(message, history)
+#     response = output['content'].strip()
     
-    # Append the user message and bot response to the chat history
-    history.append((message, response))
+#     # Append the user message and bot response to the chat history
+#     history.append((message, response))
     
-    return response, history
+#     return response, history
 
-# Main function for Gradio interface
-def main():
-    with gr.Blocks() as iface:
-        # Static title for the page
-        with gr.Row(elem_id="header_row", equal_height=True):
-            gr.HTML("""<div style="text-align: center; padding: 20px; background-color: #f5f5f5; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-                        <h1 style="font-family: 'Arial', sans-serif; color: #333;">Friends Character Chatbot</h1>
-                        </div>""")
-            # Dynamic text for the selected character
-            character_status = gr.Markdown("### Chat with your favorite Friends character: *No character selected*")
+# # Main function for Gradio interface
+# def main():
+#     with gr.Blocks() as iface:
+#         # Static title for the page
+#         with gr.Row(elem_id="header_row", equal_height=True):
+#             gr.HTML("""<div style="text-align: center; padding: 20px; background-color: #f5f5f5; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+#                         <h1 style="font-family: 'Arial', sans-serif; color: #333;">Friends Character Chatbot</h1>
+#                         </div>""")
+#             # Dynamic text for the selected character
+#             character_status = gr.Markdown("### Chat with your favorite Friends character: *No character selected*")
 
-        # Character selection section
-        with gr.Row(elem_id="selection_row", equal_height=True):
-            with gr.Column():
-                # Radio button for character selection
-                character_radio = gr.Radio(label="Choose a character", choices=list(character_models.keys()), value=None)
+#         # Character selection section
+#         with gr.Row(elem_id="selection_row", equal_height=True):
+#             with gr.Column():
+#                 # Radio button for character selection
+#                 character_radio = gr.Radio(label="Choose a character", choices=list(character_models.keys()), value=None)
 
-        # Textbox for user query (message) and submit button
-        with gr.Row(elem_id="input_row", equal_height=True):
-            user_message = gr.Textbox(label="Your message", placeholder="Type your message here...")
-            submit_button = gr.Button("Submit")
+#         # Textbox for user query (message) and submit button
+#         with gr.Row(elem_id="input_row", equal_height=True):
+#             user_message = gr.Textbox(label="Your message", placeholder="Type your message here...")
+#             submit_button = gr.Button("Submit")
 
-        # Chatbot display below the input section
-        with gr.Row(elem_id="chat_row", equal_height=True):
-            chatbot = gr.Chatbot(label="Chat with the selected character", height=600)
+#         # Chatbot display below the input section
+#         with gr.Row(elem_id="chat_row", equal_height=True):
+#             chatbot = gr.Chatbot(label="Chat with the selected character", height=600)
 
-        # Chat history state
-        chat_history = gr.State([])
+#         # Chat history state
+#         chat_history = gr.State([])
 
-        # Function when user submits a message
-        def process_input(character, message, history):
-            # Get response from the chatbot
-            response, updated_history = chat_with_character_chatbot(character, message, history)
-            return updated_history, updated_history
+#         # Function when user submits a message
+#         def process_input(character, message, history):
+#             # Get response from the chatbot
+#             response, updated_history = chat_with_character_chatbot(character, message, history)
+#             return updated_history, updated_history
 
-        # Function to reset the chat when character changes
-        def reset_chat(character):
-            # Update the dynamic character status
-            status_message = f"### Chat with your favorite Friends character: *{character}*"
-            return [], "", [], status_message  # Reset chat history, message input, and update the status
+#         # Function to reset the chat when character changes
+#         def reset_chat(character):
+#             # Update the dynamic character status
+#             status_message = f"### Chat with your favorite Friends character: *{character}*"
+#             return [], "", [], status_message  # Reset chat history, message input, and update the status
 
-        # Connect submit button to input processing
-        submit_button.click(fn=process_input, 
-                            inputs=[character_radio, user_message, chat_history], 
-                            outputs=[chatbot, chat_history])
+#         # Connect submit button to input processing
+#         submit_button.click(fn=process_input, 
+#                             inputs=[character_radio, user_message, chat_history], 
+#                             outputs=[chatbot, chat_history])
 
-        # Reset chat history, input, and state when character changes
-        character_radio.change(fn=reset_chat, 
-                               inputs=[character_radio], 
-                               outputs=[chatbot, user_message, chat_history, character_status])
+#         # Reset chat history, input, and state when character changes
+#         character_radio.change(fn=reset_chat, 
+#                                inputs=[character_radio], 
+#                                outputs=[chatbot, user_message, chat_history, character_status])
 
-    iface.launch(share=True)
+#     iface.launch(share=True)
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
 
 
 
 
 #-------------------------------------------------------------------
 
+# import gradio as gr
+# from friends_chracter_new.friend_character_chatbox import CharacterChatBot
+# import os
+
+# # Mapping of character names to their corresponding model paths
+# character_models = {
+#     "Rachel": "nitish-11/friends_Rachel_trained_Llama-3-8B",
+#     "Ross": "nitish-11/friends_Ross_trained2_Llama-3-8B",
+#     "Chandler": "nitish-11/friends_Chandler_trained_Llama-3-8B",
+#     "Monica": "nitish-11/friends_Monica_trained_Llama-3-8B",
+#     "Joey": "nitish-11/friends_Joey_trained_Llama-3-8B",
+#     "Phoebe": "nitish-11/friends_Phoebe_trained_Llama-3-8B"
+# }
+
+# # Function to chat with the character chatbot
+# def chat_with_character_chatbot(character, message, history):
+#     if character is None:
+#         return "Please select a character before sending a message.", history
+    
+#     if character not in character_models:
+#         return "Character not recognized. Please enter a valid character.", history
+
+#     # Initialize the chatbot with the selected character's model
+#     character_chatbot = CharacterChatBot(model_path=character_models[character],
+#                                          data_path="/content/data/merged_transcripts3.csv",
+#                                          huggingface_token=os.getenv('huggingface_token'),
+#                                          character_name=character)
+    
+#     # Generate the response from the chatbot
+#     output = character_chatbot.chat(message, history)
+#     response = output['content'].strip()
+    
+#     # Append the user message and bot response to the chat history
+#     history.append((message, response))
+    
+#     return response, history
+
+# # Main function for Gradio interface
+# def main():
+#     with gr.Blocks() as iface:
+#         # Stylish title for the page with colors and calligraphy
+#         with gr.Row(elem_id="header_row", equal_height=True):
+#             gr.HTML("""
+#                 <div style="text-align: center; padding: 20px; background-color: #f0f8ff; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+#                     <h1 style="font-family: 'Brush Script MT', cursive; color: #ff4500; font-size: 60px; letter-spacing: 2px;">
+#                         Friends Character Chatbot
+#                     </h1>
+#                     <p id="character-status" style="font-family: 'Georgia', serif; color: #2e8b57; font-size: 24px; margin-top: 5px;">
+#                         Chat with your favorite Friends character: <i>No character selected</i>
+#                     </p>
+#                 </div>
+#             """)
+
+#         # Character selection section
+#         with gr.Row(elem_id="selection_row", equal_height=True):
+#             with gr.Column():
+#                 # Radio button for character selection
+#                 character_radio = gr.Radio(label="Choose a character", choices=list(character_models.keys()), value=None)
+
+#         # Textbox for user query (message) and submit button
+#         with gr.Row(elem_id="input_row", equal_height=True):
+#             user_message = gr.Textbox(label="Your message", placeholder="Type your message here...", elem_id="message_input", lines=3)
+#             submit_button = gr.Button("Submit", elem_id="submit_button", size="small")  # Small button size
+
+#         # Chatbot display below the input section
+#         with gr.Row(elem_id="chat_row", equal_height=True):
+#             chatbot = gr.Chatbot(label="Chat with the selected character", height=600)
+
+#         # Chat history state
+#         chat_history = gr.State([])
+
+#         # Function when user submits a message
+#         def process_input(character, message, history):
+#             # Get response from the chatbot
+#             response, updated_history = chat_with_character_chatbot(character, message, history)
+#             return updated_history, updated_history
+
+#         # Function to reset the chat when character changes
+#         def reset_chat(character):
+#             # Update the dynamic character status in the top bar
+#             status_message = f"Chat with your favorite Friends character: <i>{character}</i>"
+#             return [], "", [], gr.update(value=status_message, elem_id="character-status")
+
+#         # Connect submit button to input processing
+#         submit_button.click(fn=process_input, 
+#                             inputs=[character_radio, user_message, chat_history], 
+#                             outputs=[chatbot, chat_history])
+
+#         # Reset chat history, input, and state when character changes
+#         character_radio.change(fn=reset_chat, 
+#                                inputs=[character_radio], 
+#                                outputs=[chatbot, user_message, chat_history, gr.Markdown.update()])
+
+#     iface.launch(share=True)
+
+# if __name__ == '__main__':
+#     main()
+
+
+
+
+#------------------------------------------------------------------------------------------
+# adding images
+
 import gradio as gr
 from friends_chracter_new.friend_character_chatbox import CharacterChatBot
 import os
 
-# Mapping of character names to their corresponding model paths
+# Mapping of character names to their corresponding model paths and images
 character_models = {
-    "Rachel": "nitish-11/friends_Rachel_trained_Llama-3-8B",
-    "Ross": "nitish-11/friends_Ross_trained2_Llama-3-8B",
-    "Chandler": "nitish-11/friends_Chandler_trained_Llama-3-8B",
-    "Monica": "nitish-11/friends_Monica_trained_Llama-3-8B",
-    "Joey": "nitish-11/friends_Joey_trained_Llama-3-8B",
-    "Phoebe": "nitish-11/friends_Phoebe_trained_Llama-3-8B"
+    "Rachel": {
+        "model": "nitish-11/friends_Rachel_trained_Llama-3-8B",
+        "image": "/content/photos/rachel.jpg"
+    },
+    "Ross": {
+        "model": "nitish-11/friends_Ross_trained2_Llama-3-8B",
+        "image": "/content/photos/ross.jpg"
+    },
+    "Chandler": {
+        "model": "nitish-11/friends_Chandler_trained_Llama-3-8B",
+        "image": "/content/photos/chandler.jpeg"
+    },
+    "Monica": {
+        "model": "nitish-11/friends_Monica_trained_Llama-3-8B",
+        "image": "/content/photos/monica.jpg"
+    },
+    "Joey": {
+        "model": "nitish-11/friends_Joey_trained_Llama-3-8B",
+        "image": "/content/photos/joey.jpg"
+    },
+    "Phoebe": {
+        "model": "nitish-11/friends_Phoebe_trained_Llama-3-8B",
+        "image": "/content/photos/phoebe.png"
+    }
 }
 
 # Function to chat with the character chatbot
@@ -612,7 +734,7 @@ def chat_with_character_chatbot(character, message, history):
         return "Character not recognized. Please enter a valid character.", history
 
     # Initialize the chatbot with the selected character's model
-    character_chatbot = CharacterChatBot(model_path=character_models[character],
+    character_chatbot = CharacterChatBot(model_path=character_models[character]["model"],
                                          data_path="/content/data/merged_transcripts3.csv",
                                          huggingface_token=os.getenv('huggingface_token'),
                                          character_name=character)
@@ -642,11 +764,26 @@ def main():
                 </div>
             """)
 
-        # Character selection section
+        # Character selection section with images
         with gr.Row(elem_id="selection_row", equal_height=True):
             with gr.Column():
-                # Radio button for character selection
-                character_radio = gr.Radio(label="Choose a character", choices=list(character_models.keys()), value=None)
+                # Radio button for character selection with images
+                character_radio = gr.Radio(
+                    label="Choose a character", 
+                    choices=list(character_models.keys()),
+                    value=None, 
+                    type="index",
+                    elem_id="character_radio"
+                )
+
+                # Adding images for character selection
+                for character in character_models:
+                    character_image = gr.Image(value=character_models[character]["image"], elem_id=f"{character}_image", label=f"{character}")
+                    character_image.visible = False  # Initially hide images
+
+                character_radio.change(fn=lambda char: [gr.update(visible=True) if char == idx else gr.update(visible=False) for idx, char in enumerate(character_models.keys())], 
+                                          inputs=character_radio,
+                                          outputs=[gr.Image.update(visible=True) for character in character_models.keys()])
 
         # Textbox for user query (message) and submit button
         with gr.Row(elem_id="input_row", equal_height=True):
