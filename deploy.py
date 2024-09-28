@@ -531,10 +531,13 @@ def chat_with_character_chatbot(character, message, history):
 # Main function for Gradio interface
 def main():
     with gr.Blocks() as iface:
-        # Header
+        # Static title for the page
         with gr.Row(elem_id="header_row", equal_height=True):
-            # This dynamic text will be updated with the selected character's name
-            character_status = gr.Markdown("### You are chatting with: *No character selected*")
+            gr.HTML("""<div style="text-align: center; padding: 20px; background-color: #f5f5f5; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                        <h1 style="font-family: 'Arial', sans-serif; color: #333;">Friends Character Chatbot</h1>
+                        </div>""")
+            # Dynamic text for the selected character
+            character_status = gr.Markdown("### Chat with your favorite Friends character: *No character selected*")
 
         # Character selection section
         with gr.Row(elem_id="selection_row", equal_height=True):
@@ -562,8 +565,8 @@ def main():
 
         # Function to reset the chat when character changes
         def reset_chat(character):
-            # Update the header to show the selected character
-            status_message = f"### You are chatting with: *{character}*"
+            # Update the dynamic character status
+            status_message = f"### Chat with your favorite Friends character: *{character}*"
             return [], "", [], status_message  # Reset chat history, message input, and update the status
 
         # Connect submit button to input processing
