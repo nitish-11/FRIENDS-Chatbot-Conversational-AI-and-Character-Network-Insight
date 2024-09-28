@@ -693,6 +693,8 @@
 #------------------------------------------------------------------------------------------
 # adding images
 
+
+
 import gradio as gr
 from friends_chracter_new.friend_character_chatbox import CharacterChatBot
 import os
@@ -766,24 +768,15 @@ def main():
 
         # Character selection section with images
         with gr.Row(elem_id="selection_row", equal_height=True):
-            with gr.Column():
-                # Radio button for character selection with images
-                character_radio = gr.Radio(
-                    label="Choose a character", 
-                    choices=list(character_models.keys()),
-                    value=None, 
-                    type="index",
-                    elem_id="character_radio"
-                )
+            character_radio = gr.Radio(
+                label="Choose a character", 
+                choices=list(character_models.keys()),
+                value=None, 
+                type="index",
+                elem_id="character_radio"
+            )
 
-                # Adding images for character selection
-                for character in character_models:
-                    character_image = gr.Image(value=character_models[character]["image"], elem_id=f"{character}_image", label=f"{character}")
-                    character_image.visible = False  # Initially hide images
-
-                character_radio.change(fn=lambda char: [gr.update(visible=True) if char == idx else gr.update(visible=False) for idx, char in enumerate(character_models.keys())], 
-                                          inputs=character_radio,
-                                          outputs=[gr.Image.update(visible=True) for character in character_models.keys()])
+            character_images = {character: gr.Image(value=character_models[character]["image"], visible=False) for character in character_models}
 
         # Textbox for user query (message) and submit button
         with gr.Row(elem_id="input_row", equal_height=True):
@@ -823,3 +816,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
