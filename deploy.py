@@ -299,6 +299,7 @@
 
 
 #----------------------------------------------------------------------------------------------------
+
 import gradio as gr
 from friends_chracter_new.friend_character_chatbox import CharacterChatBot
 import os
@@ -316,10 +317,10 @@ character_models = {
 # Function to chat with the character chatbot
 def chat_with_character_chatbot(character, message, history):
     if character is None:
-        return "Please select a character before sending a message."
+        return "Please select a character before sending a message.", history
     
     if character not in character_models:
-        return "Character not recognized. Please enter a valid character."
+        return "Character not recognized. Please enter a valid character.", history
 
     # Initialize the chatbot with the selected character's model
     character_chatbot = CharacterChatBot(model_path=character_models[character],
@@ -329,7 +330,12 @@ def chat_with_character_chatbot(character, message, history):
     
     # Generate the response from the chatbot
     output = character_chatbot.chat(message, history)
-    return output['content'].strip()
+    response = output['content'].strip()
+    
+    # Append the user message and bot response to the chat history
+    history.append((message, response))
+    
+    return response, history
 
 # Main function for Gradio interface
 def main():
@@ -360,15 +366,20 @@ def main():
 
                 # Function when user submits a message
                 def process_input(character, message, history):
-                    # Clear previous conversation if new character selected
-                    chatbot.clear()
-                    response = chat_with_character_chatbot(character, message, history)
-                    return chatbot.append((message, response))
-                
+                    # Get response from the chatbot
+                    response, updated_history = chat_with_character_chatbot(character, message, history)
+                    return updated_history
+
+                # Initialize the chat history
+                chat_history = []
+
                 # Connect submit button to input processing
-                submit_button.click(process_input, inputs=[character_textbox, user_message, chatbot], outputs=chatbot)
+                submit_button.click(fn=process_input, 
+                                    inputs=[character_textbox, user_message, chat_history], 
+                                    outputs=chatbot)
 
     iface.launch(share=True)
 
 if __name__ == '__main__':
     main()
+
