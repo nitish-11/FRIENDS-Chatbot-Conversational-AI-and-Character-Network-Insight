@@ -727,6 +727,7 @@ character_models = {
     }
 }
 
+
 # Function to chat with the character chatbot
 def chat_with_character_chatbot(character, message, history):
     if character is None:
@@ -766,7 +767,7 @@ def main():
                 </div>
             """)
 
-        # Character selection section with images
+        # Character selection section
         with gr.Row(elem_id="selection_row", equal_height=True):
             character_radio = gr.Radio(
                 label="Choose a character", 
@@ -775,8 +776,6 @@ def main():
                 type="index",
                 elem_id="character_radio"
             )
-
-            character_images = {character: gr.Image(value=character_models[character]["image"], visible=False) for character in character_models}
 
         # Textbox for user query (message) and submit button
         with gr.Row(elem_id="input_row", equal_height=True):
@@ -794,13 +793,13 @@ def main():
         def process_input(character, message, history):
             # Get response from the chatbot
             response, updated_history = chat_with_character_chatbot(character, message, history)
-            return updated_history, updated_history
+            return updated_history
 
         # Function to reset the chat when character changes
         def reset_chat(character):
             # Update the dynamic character status in the top bar
             status_message = f"Chat with your favorite Friends character: <i>{character}</i>"
-            return [], "", [], gr.update(value=status_message, elem_id="character-status")
+            return [], "", status_message  # Returning the status message directly
 
         # Connect submit button to input processing
         submit_button.click(fn=process_input, 
@@ -810,10 +809,11 @@ def main():
         # Reset chat history, input, and state when character changes
         character_radio.change(fn=reset_chat, 
                                inputs=[character_radio], 
-                               outputs=[chatbot, user_message, chat_history, gr.Markdown.update()])
+                               outputs=[chatbot, user_message, gr.Markdown()])  # Return empty chat and user message
 
     iface.launch(share=True)
 
 if __name__ == '__main__':
     main()
+
 
