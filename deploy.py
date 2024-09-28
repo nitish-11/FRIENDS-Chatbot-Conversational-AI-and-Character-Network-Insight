@@ -492,7 +492,7 @@
 # without colores
 
 import gradio as gr
-from friends_chracter_new.friend_character_chatbox import CharacterChatBot
+from friends_chatbot_new.friend_character_chatbox import CharacterChatBot
 import os
 
 # Mapping of character names to their corresponding model paths
@@ -504,6 +504,32 @@ character_models = {
     "Joey": "nitish-11/friends_Joey_trained_Llama-3-8B",
     "Phoebe": "nitish-11/friends_Phoebe_trained_Llama-3-8B"
 }
+
+
+# def get_character_network(subtitles_path,ner_path):
+#     ner = NamedEntityRecognizer()
+#     ner_df = ner.get_ners(subtitles_path,ner_path)
+
+#     character_network_generator = CharacterNetworkGenerator()
+#     relationship_df = character_network_generator.generate_character_network(ner_df)
+#     html = character_network_generator.draw_network_graph(relationship_df)
+
+#     return html
+
+
+def get_character_network(ner_path):
+    # #ner = NamedEntityRecognizer()
+    # ner_df = ner.get_ners(subtitles_path,ner_path)
+
+    # character_network_generator = CharacterNetworkGenerator()
+    # relationship_df = character_network_generator.generate_character_network(ner_df)
+    html = '/content/friends_character_network_two.html'
+
+    return html
+
+
+
+
 
 # Function to chat with the character chatbot
 def chat_with_character_chatbot(character, message, history):
@@ -595,9 +621,10 @@ def main():
                                 with gr.Column():
                                     network_html = gr.HTML()
                                 with gr.Column():
-                                    subtitles_path = gr.Textbox(label="Subtutles or Script Path")
+                                    #subtitles_path = gr.Textbox(label="Subtutles or Script Path")
                                     ner_path = gr.Textbox(label="NERs save path")
                                     get_network_graph_button = gr.Button("Get Character Network")
+                                    get_network_graph_button.click(get_character_network, inputs=[ner_path], outputs=[network_html])
                                     #get_network_graph_button.click(get_character_network, inputs=[subtitles_path,ner_path], outputs=[network_html])
 
 
