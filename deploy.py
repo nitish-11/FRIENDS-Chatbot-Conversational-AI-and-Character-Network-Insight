@@ -364,19 +364,19 @@ def main():
                 # Submit button to start the conversation
                 submit_button = gr.Button("Submit")
 
+                # Chat history state
+                chat_history = gr.State([])
+
                 # Function when user submits a message
                 def process_input(character, message, history):
                     # Get response from the chatbot
                     response, updated_history = chat_with_character_chatbot(character, message, history)
-                    return updated_history
-
-                # Initialize the chat history
-                chat_history = []
+                    return updated_history, updated_history
 
                 # Connect submit button to input processing
                 submit_button.click(fn=process_input, 
                                     inputs=[character_textbox, user_message, chat_history], 
-                                    outputs=chatbot)
+                                    outputs=[chatbot, chat_history])
 
     iface.launch(share=True)
 
