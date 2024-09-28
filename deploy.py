@@ -582,8 +582,8 @@ def main():
                                    inputs=[character_radio], 
                                    outputs=[chatbot, user_message, chat_history, character_status])
 
-        with gr.Tab("Character Network"):
-            gr.HTML("<iframe src='/content/data/friends_character_network_two.html' width='100%' height='600px' style='border: none;'></iframe>")
+        # with gr.Tab("Character Network"):
+        #     gr.HTML("<iframe src='/content/data/friends_character_network_two.html' width='100%' height='600px' style='border: none;'></iframe>")
 
 
     iface.launch(share=True)
