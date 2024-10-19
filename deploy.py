@@ -523,7 +523,8 @@ def get_character_network():
     # ner_df = ner.f_get_ners()
 
     # character_network_generator = friendCharacterNetworkGenerator()
-    relational_df = pd.read_csv("/content/relationship_df_cleaner_nw_plotting")
+    relational_df = pd.read_csv("/content/relationship_df_cleaner_nw_plotting.csv")
+
     html = friendCharacterNetworkGenerator.draw_network_graph(relational_df)
 
     return html
