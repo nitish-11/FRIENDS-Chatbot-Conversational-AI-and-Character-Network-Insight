@@ -522,7 +522,9 @@ def get_character_network():
     # ner_df = ner.f_get_ners()
 
     character_network_generator = friendCharacterNetworkGenerator()
-    hmtl = friendCharacterNetworkGenerator.draw_network_graph("/content/relationship_df_cleaner_nw_plotting")
+    html = friendCharacterNetworkGenerator.draw_network_graph("/content/relationship_df_cleaner_nw_plotting")
+
+    return html
 
 
 
