@@ -643,7 +643,7 @@ def main():
     gr.HTML(css).launch()
 
 
-    iface.launch(share=True)
+    #iface.launch(share=True)
 
 if __name__ == '__main__':
     main()
