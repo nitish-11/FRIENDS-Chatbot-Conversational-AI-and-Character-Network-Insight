@@ -521,7 +521,7 @@ def get_character_network():
     # ner = friendCharacterNetworkGenerator()
     # ner_df = ner.f_get_ners()
 
-    character_network_generator = friendCharacterNetworkGenerator()
+    # character_network_generator = friendCharacterNetworkGenerator()
     html = friendCharacterNetworkGenerator.draw_network_graph("/content/relationship_df_cleaner_nw_plotting")
 
     return html
