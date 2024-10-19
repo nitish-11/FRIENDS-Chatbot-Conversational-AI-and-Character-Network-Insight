@@ -617,19 +617,30 @@ def main():
 
 
         with gr.Tab("Character Network"):
+            with gr.Row():
+                with gr.Column():
+                    gr.HTML("<h1>Character Network (NERs and Graphs)</h1>")
                     with gr.Row():
                         with gr.Column():
-                            gr.HTML("<h1>Character Network (NERs and Graphs)</h1>")
-                            with gr.Row():
-                                with gr.Column():
-                                    network_html = gr.HTML()
-                                with gr.Column():
-                                    #subtitles_path = gr.Textbox(label="Subtutles or Script Path")
-                                    # ner_path = gr.Textbox(label="NERs save path")
-                                    get_network_graph_button = gr.Button("Get Character Network")
-                                    get_network_graph_button.click(get_character_network, outputs=[network_html])
-                                    #get_network_graph_button.click(get_character_network, inputs=[subtitles_path,ner_path], outputs=[network_html])
-
+                            # Create a full-page styled HTML component
+                            network_html = gr.HTML(label="", elem_id="network-html", interactive=False)
+                            
+                            # Button to get the character network
+                            get_network_graph_button = gr.Button("Get Character Network")
+                            get_network_graph_button.click(get_character_network, outputs=[network_html])
+        
+    css = """
+    <style>
+    #network-html {
+        width: 100%; 
+        height: 800px;  /* Adjust height as needed */
+        overflow: hidden; /* Prevent overflow */
+        border: none; /* Optional: Remove borders */
+    }
+    </style>
+    """
+    # Render the CSS in the Gradio app
+    gr.HTML(css).launch()
 
 
     iface.launch(share=True)
