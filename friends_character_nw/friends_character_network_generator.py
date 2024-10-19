@@ -113,13 +113,13 @@ class friendCharacterNetworkGenerator():
         </script>
         """
 
-        # Save the network to an HTML file
-        file_name = "/mnt/data/friends_character_network.html"
+        # Save the network to an HTML file in the current directory
+        file_name = "friends_character_network.html"  # Save in current directory
         net.show(file_name)
 
         # Append the custom JavaScript to the HTML file
         with open(file_name, "a") as f:
             f.write(highlight_js)
-        
+
+        # Return the file name
         return file_name
- 
