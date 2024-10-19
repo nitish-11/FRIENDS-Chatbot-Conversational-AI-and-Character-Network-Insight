@@ -124,11 +124,25 @@ class friendCharacterNetworkGenerator():
         # # Return the file name
         # return file_name
 
-                # Get the HTML representation of the network
-        html_content = net.generate_html()
+        #         # Get the HTML representation of the network
+        # html_content = net.generate_html()
 
-        # Append the custom JavaScript to the HTML content
-        html_content += highlight_js
+        # # Append the custom JavaScript to the HTML content
+        # html_content += highlight_js
 
-        # Return the HTML content as a string
-        return html_content
+        # # Return the HTML content as a string
+        # return html_content
+
+            # Generate HTML for the network
+        html = net.generate_html()
+        html = html.replace("'", "\"")  # Replace single quotes with double quotes for embedding
+
+        # Create iframe HTML
+        output_html = f"""<iframe style="width: 100%; height: 600px;margin:0 auto" 
+        name="result" allow="midi; geolocation; microphone; camera; display-capture; 
+        encrypted-media;" sandbox="allow-modals allow-forms allow-scripts allow-same-origin 
+        allow-popups allow-top-navigation-by-user-activation allow-downloads" 
+        allowfullscreen="" allowpaymentrequest="" frameborder="0" 
+        srcdoc='{html}'></iframe>"""
+
+        return output_html
