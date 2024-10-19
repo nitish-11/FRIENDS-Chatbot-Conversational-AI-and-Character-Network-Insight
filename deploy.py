@@ -494,6 +494,7 @@ import gradio as gr
 from friends_chatbot_new.friend_character_chatbox import CharacterChatBot
 from friends_character_nw.friends_character_network_generator import friendCharacterNetworkGenerator
 import os
+import pandas as pd
 
 # Mapping of character names to their corresponding model paths
 character_models = {
@@ -522,7 +523,7 @@ def get_character_network():
     # ner_df = ner.f_get_ners()
 
     # character_network_generator = friendCharacterNetworkGenerator()
-    relational_df = "/content/relationship_df_cleaner_nw_plotting"
+    relational_df = pd.read_csv("/content/relationship_df_cleaner_nw_plotting")
     html = friendCharacterNetworkGenerator.draw_network_graph(relational_df)
 
     return html
