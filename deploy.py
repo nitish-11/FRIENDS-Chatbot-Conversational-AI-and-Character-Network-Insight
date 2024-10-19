@@ -486,7 +486,7 @@
 #     main()
 
 
-from friends_character_nw import friends_named_entity_recognizer, friends_character_network_generator
+
 #------------------------------------------------------------
 # without colores
 
