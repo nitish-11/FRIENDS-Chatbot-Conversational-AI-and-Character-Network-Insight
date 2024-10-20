@@ -492,7 +492,7 @@
 
 import gradio as gr
 from friends_chatbot_new.friend_character_chatbox import CharacterChatBot
-from friends_character_nw.friends_character_network_generator import friendCharacterNetworkGenerator
+# from friends_character_nw.friends_character_network_generator import friendCharacterNetworkGenerator
 import os
 import pandas as pd
 
@@ -518,16 +518,17 @@ character_models = {
 #     return html
 
 
-def get_character_network():
-    # ner = friendCharacterNetworkGenerator()
-    # ner_df = ner.f_get_ners()
+# def get_character_network():
+#     # ner = friendCharacterNetworkGenerator()
+#     # ner_df = ner.f_get_ners()
 
-    character_network_generator = friendCharacterNetworkGenerator()
-    relational_df = pd.read_csv("/content/relationship_df_cleaner_nw_plotting.csv")
+#     character_network_generator = friendCharacterNetworkGenerator()
+#     # relational_df = pd.read_csv("/content/relationship_df_cleaner_nw_plotting.csv")
+#     relational_df = pd.read_csv("data/relationship_df_cleaner_nw_plotting.csv")
 
-    html = character_network_generator.draw_network_graph(relational_df)
+#     html = character_network_generator.draw_network_graph(relational_df)
 
-    return html
+#     return html
 
 
 
@@ -557,7 +558,10 @@ def chat_with_character_chatbot(character, message, history):
     
     return response, history
 
-
+def load_insight_html():
+    # Load the character insight HTML file content
+    with open("/content/friends_character_insight.html", "r", encoding="utf-8") as file:
+        return file.read()
 
 # Main function for Gradio interface
 def main():
@@ -617,17 +621,21 @@ def main():
 
 
         with gr.Tab("Character Network"):
+            with gr.Row():
+                with gr.Column():
+                    gr.HTML("<h1>Character Insight</h1>")
+                    
+                    # Top right option to load the HTML file
                     with gr.Row():
-                        with gr.Column():
-                            gr.HTML("<h1>Character Network (NERs and Graphs)</h1>")
-                            with gr.Row():
-                                with gr.Column():
-                                    network_html = gr.HTML()
-                                with gr.Column():
-                                    #subtitles_path = gr.Textbox(label="Subtutles or Script Path")
-                                    # ner_path = gr.Textbox(label="NERs save path")
-                                    get_network_graph_button = gr.Button("Get Character Network")
-                                    get_network_graph_button.click(get_character_network, outputs=[network_html])
+                        with gr.Column(scale=9):  # Adjust scale to position the button to the right
+                            pass
+                        with gr.Column(scale=1):
+                            load_insight_button = gr.Button("Show Character Insight")
+                            insight_html = gr.HTML()  # Placeholder for the insight HTML
+                            load_insight_button.click(load_insight_html, outputs=[insight_html])
+
+                    # Display the insight HTML below the button
+                    insight_html.render()
                                     #get_network_graph_button.click(get_character_network, inputs=[subtitles_path,ner_path], outputs=[network_html])
 
 
