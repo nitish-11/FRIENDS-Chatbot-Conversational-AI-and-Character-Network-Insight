@@ -634,8 +634,8 @@ def main():
                             insight_html = gr.HTML()  # Placeholder for the insight HTML
                             load_insight_button.click(load_insight_html, outputs=[insight_html])
 
-                    # Display the insight HTML below the button
-                    insight_html.render()
+                    # # Display the insight HTML below the button
+                    # insight_html.render()
                                     #get_network_graph_button.click(get_character_network, inputs=[subtitles_path,ner_path], outputs=[network_html])
 
 
