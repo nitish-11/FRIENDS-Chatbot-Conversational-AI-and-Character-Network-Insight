@@ -1,1 +1,0 @@
-from .friend_character_chatbox import CharacterChatBot
