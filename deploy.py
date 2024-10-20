@@ -587,7 +587,7 @@ def load_insight_html():
     # Replace single quotes with double quotes for proper embedding
     html_content = html_content.replace("'", "\"")
 
-    # Create iframe HTML with adjusted height and width to fill the page
+    # Create iframe HTML with full page width and height adjustments
     output_html = f"""
     <iframe style="width: 100%; height: 1000px; margin: 0 auto; border: none;" 
     name="result" allow="midi; geolocation; microphone; camera; display-capture; 
@@ -657,18 +657,19 @@ def main():
 
 
         with gr.Tab("Character Network"):
+            # Title of the section
+            gr.Markdown("<h1 style='text-align:center'>Character Insight</h1>")
+            
+            # Show character insight button and iframe
             with gr.Row():
-                with gr.Column():
-                    gr.HTML("<h1>Character Insight</h1>")
-                    
-                    # Top right option to load the HTML file
-                    with gr.Row():
-                        with gr.Column(scale=9):  # Adjust scale to position the button to the right
-                            pass
-                        with gr.Column(scale=1):
-                            load_insight_button = gr.Button("Show Character Insight")
-                            insight_html = gr.HTML()  # Placeholder for the insight HTML
-                            load_insight_button.click(load_insight_html, outputs=[insight_html])
+                load_insight_button = gr.Button("Show Character Insight", scale=1)
+            
+            # Separate row for the iframe to make sure it occupies the entire width
+            with gr.Row():
+                insight_html = gr.HTML()  # Placeholder for the iframe HTML
+                
+            # Button action loads the HTML into the iframe container
+            load_insight_button.click(load_insight_html, outputs=[insight_html])
 
                     # # Display the insight HTML below the button
                     # insight_html.render()
