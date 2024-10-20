@@ -42,7 +42,7 @@ def chat_with_character_chatbot(character, message, history):
 
 def load_insight_html():
     # Load the character insight HTML file content
-    with open("data/friends_character_insight.html", "r", encoding="utf-8") as file:
+    with open("/content/friends_character_insight.html", "r", encoding="utf-8") as file:
         html_content = file.read()
 
     # Replace single quotes with double quotes for proper embedding
