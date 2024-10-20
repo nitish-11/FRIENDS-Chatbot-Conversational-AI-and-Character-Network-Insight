@@ -560,8 +560,23 @@ def chat_with_character_chatbot(character, message, history):
 
 def load_insight_html():
     # Load the character insight HTML file content
-    with open("/content/friends_character_insight.html", "r", encoding="utf-8") as file:
-        return file.read()
+    with open("data/friends_character_insight.html", "r", encoding="utf-8") as file:
+        html_content = file.read()
+
+    # Replace single quotes with double quotes for proper embedding
+    html_content = html_content.replace("'", "\"")
+
+    # Create iframe HTML
+    output_html = f"""
+    <iframe style="width: 100%; height: 600px; margin:0 auto" 
+    name="result" allow="midi; geolocation; microphone; camera; display-capture; 
+    encrypted-media;" sandbox="allow-modals allow-forms allow-scripts allow-same-origin 
+    allow-popups allow-top-navigation-by-user-activation allow-downloads" 
+    allowfullscreen="" allowpaymentrequest="" frameborder="0" 
+    srcdoc='{html_content}'></iframe>
+    """
+    
+    return output_html
 
 # Main function for Gradio interface
 def main():
